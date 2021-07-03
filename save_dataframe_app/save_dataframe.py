@@ -1,27 +1,24 @@
-import streamlit as st
-import pandas as pd
+import base64
 import os
 
-st.title('Streamlit　Basics')
-# st.sidebar.title('Streamlit　Basics')
+import streamlit as st
+import pandas as pd
+
+st.title('データファイルダウンロード')
 
 # Table
-st.write('DataFrame')
+st.write('データフレーム')
 
 df = pd.DataFrame({
-	'column１': [1, 2, 3, 4],
-	'column 2': [10, 20, 30, 40]
-	})
-
-df = pd.DataFrame({'numbers': [1, 2, 3], 'colors': ['red', 'white', 'blue']})
+    '値': [1, 2, 3],
+    '色': ['red', 'white', 'blue']
+    })
 
 st.write(df)
-if st.button('save dataframe'):
-    directory_path = os.getcwd()
-    file_name = 'df.csv'
-    # file_name = 'df.xlsx'
-    file_path = os.path.join(directory_path, file_name)
-    st.write(f'ファイル保存先：{file_path}')
-    # open(file_path, 'w').write(df.to_csv())
-    df.to_csv(file_path)
-    # df.to_excel(file_path)
+if st.button('ダウンロードリンクを生成'):
+    object_to_download = df.to_csv(index=False, encoding='utf_8_sig')
+    # st.write(object_to_download)
+    b64 = base64.b64encode(object_to_download.encode('UTF-8')).decode()
+    # b64 = base64.b64encode(object_to_download.encode()).decode()
+    tmp_download_link = f'<a href="data:file/csv;base64,{b64}" download="downloaded-data.csv">Download csv file</a>'
+    st.markdown(tmp_download_link, unsafe_allow_html=True)
