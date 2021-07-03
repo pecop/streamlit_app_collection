@@ -9,10 +9,10 @@ import streamlit as st
 TOKEN = st.secrets['YOUR_TOKEN']
 api_url = 'https://notify-api.line.me/api/notify'
 
-st.title('LINE通知アプリ')
-txt_msg = st.text_input('LINEに送信したいメッセージを入力してください。')
-img_file = st.file_uploader('LINEに送信画像ファイルをアップロードしてください。（対応ファイル形式：.png、.jpg）')
-send_click = st.button('LINEへ送付')
+st.title('LINE送信アプリ')
+txt_msg = st.text_input('LINEへ送信したいメッセージを入力してください。')
+img_file = st.file_uploader('LINEへ送信画像ファイルをアップロードしてください。（対応ファイル形式：.png、.jpg）')
+send_click = st.button('LINEへ送信')
 
 if send_click:
     # パラメーター設定
@@ -33,7 +33,7 @@ if send_click:
 
     # メッセージ送信
     requests.post(api_url, headers=TOKEN_dic, data=send_dic, files=image_dic)
-    st.success('LINEへの通知が完了しました。')
+    st.success('LINEへの送信が完了しました。')
     st.write(send_contents)
     st.image(
         img, caption='送信画像',
